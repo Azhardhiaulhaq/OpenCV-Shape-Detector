@@ -6,7 +6,7 @@ import math
 bangun = input("Masukkan bangun yang diinginkan :")
 sisi = (int)(input("Masukkan jumlah sudut :"))
 
-img = cv2.imread('2dshape3.png')
+img = cv2.imread('segilima.png')
 imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 blurred = cv2.GaussianBlur(imgray, (5,5),0)
 ret, thresh = cv2.threshold(imgray,127,255,1)
@@ -27,7 +27,7 @@ for contour in contours:
             angle_list.append(angle)
     print(angle_list)
 
-    if(len(approx)==sisi):
+    if(sisi == 3):
         print("sisi 3")
         print(approx)
         environment = Environment()
@@ -52,24 +52,22 @@ for contour in contours:
                     break
         print()
         print("---------------")
-    elif(len(approx)==sisi):
+    elif(sisi == 4):
         print("sisi 4")
         print(approx)
-        environment = Environment()
-        environment.load('segiempat.clp')
         sudut1 = angle_list[0]
         sudut2 = angle_list[1]
         sudut3 = angle_list[2]
         sudut4 = angle_list[3]
         environment = Environment()
-        environment.load('segilima.clp')
-        c = str("(sudut 1 " + sudut1 + ")")
+        environment.load('segitiga3.clp')
+        c = str("(sudut 1 " + (str)(sudut1) + ")")
         environment.assert_string(c)
-        c = str("(sudut 2 " + sudut2 + ")")
+        c = str("(sudut 2 " + (str)(sudut2) + ")")
         environment.assert_string(c)
-        c = str("(sudut 3 " + sudut3 + ")")
+        c = str("(sudut 3 " + (str)(sudut3) + ")")
         environment.assert_string(c)
-        c = str("(sudut 4 " + sudut4 + ")")
+        c = str("(sudut 4 " + (str)(sudut4) + ")")
         environment.assert_string(c)
         for agenda in environment.activations():
             print(agenda)
@@ -84,7 +82,7 @@ for contour in contours:
                     break
         print()
         print("---------------")
-    elif(len(approx)==sisi):
+    elif(sisi == 5):
         print("sisi 5")
         print(approx)
         sudut1 = angle_list[0]
@@ -94,15 +92,15 @@ for contour in contours:
         sudut5 = angle_list[4]
         environment = Environment()
         environment.load('segilima.clp')
-        c = str("(sudut 1 " + sudut1 + ")")
+        c = str("(sudut 1 " + (str)(sudut1) + ")")
         environment.assert_string(c)
-        c = str("(sudut 2 " + sudut2 + ")")
+        c = str("(sudut 2 " + (str)(sudut2) + ")")
         environment.assert_string(c)
-        c = str("(sudut 3 " + sudut3 + ")")
+        c = str("(sudut 3 " + (str)(sudut3) + ")")
         environment.assert_string(c)
-        c = str("(sudut 4 " + sudut4 + ")")
+        c = str("(sudut 4 " + (str)(sudut4) + ")")
         environment.assert_string(c)
-        c = str("(sudut 5 " + sudut5 + ")")
+        c = str("(sudut 5 " + (str)(sudut5) + ")")
         environment.assert_string(c)
         for agenda in environment.activations():
             print(agenda)
@@ -117,41 +115,40 @@ for contour in contours:
                     break
         print()
         print("---------------")
-    elif(len(approx)==sisi):
+    elif(sisi == 6):
         print("sisi 6")
-        # print(approx)
-        # sudut1 = angle_list[0]
-        # sudut2 = angle_list[1]
-        # sudut3 = angle_list[2]
-        # sudut4 = angle_list[3]
-        # sudut5 = angle_list[4]
-        # sudut6 = angle_list[5]
-        # environment = Environment()
-        # environment.load('segilima.clp')
-        # c = str("(sudut 1 " + sudut1 + ")")
-        # environment.assert_string(c)
-        # c = str("(sudut 2 " + sudut2 + ")")
-        # environment.assert_string(c)
-        # c = str("(sudut 3 " + sudut3 + ")")
-        # environment.assert_string(c)
-        # c = str("(sudut 4 " + sudut4 + ")")
-        # environment.assert_string(c)
-        # c = str("(sudut 5 " + sudut5 + ")")
-        # environment.assert_string(c)
-        # c = str("(sudut 6 " + sudut6 + ")")
-        # environment.assert_string(c)
-        # for agenda in environment.activations():
-        #     print(agenda)
-        #     environment.run()
-        #     i = 0
-        #     for fact in environment.facts():
-        #         fakta = str(fact)
-        #         print(fakta)
-        #         if(bangun in fakta):
-        #             print(fakta)
-        #             cv2.drawContours(img,[contour],0,(0,0,255),3)
-        #             break
-        cv2.drawContours(img,[contour],0,(0,0,255),3)
+        print(approx)
+        sudut1 = angle_list[0]
+        sudut2 = angle_list[1]
+        sudut3 = angle_list[2]
+        sudut4 = angle_list[3]
+        sudut5 = angle_list[4]
+        sudut6 = angle_list[5]
+        environment = Environment()
+        environment.load('segitiga3.clp')
+        c = str("(sudut 1 " + (str)(sudut1) + ")")
+        environment.assert_string(c)
+        c = str("(sudut 2 " + (str)(sudut2) + ")")
+        environment.assert_string(c)
+        c = str("(sudut 3 " + (str)(sudut3) + ")")
+        environment.assert_string(c)
+        c = str("(sudut 4 " + (str)(sudut4) + ")")
+        environment.assert_string(c)
+        c = str("(sudut 5 " + (str)(sudut5) + ")")
+        environment.assert_string(c)
+        c = str("(sudut 6 " + (str)(sudut6) + ")")
+        environment.assert_string(c)
+        for agenda in environment.activations():
+            print(agenda)
+            environment.run()
+            i = 0
+            for fact in environment.facts():
+                fakta = str(fact)
+                print(fakta)
+                if(bangun in fakta):
+                    print(fakta)
+                    cv2.drawContours(img,[contour],0,(0,0,255),3)
+                    break
         print()
         print("---------------")
 
