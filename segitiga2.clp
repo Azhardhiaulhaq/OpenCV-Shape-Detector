@@ -31,9 +31,7 @@
 	(test(neq ?identifier1 ?identifier2))
 	(test(neq ?identifier3 ?identifier2))
 	(test(neq ?identifier1 ?identifier3))
-	(test (< ?s1 89))
-	(test (< ?s2 89))
-	(test (< ?s2 89))
+	(test (and (< ?s1 89) (and (< ?s2 89) (< ?s3 89))))
 	=>
 	(assert (segitiga lancip))
 	)
@@ -45,7 +43,7 @@
 	(test(neq ?identifier1 ?identifier2))
 	(test(neq ?identifier3 ?identifier2))
 	(test(neq ?identifier1 ?identifier3))
-	(or (and (> ?s1 91)(< ?s1 180)) (and (> ?s2 91)(< ?s2 180))(and (> ?s3 91)(< ?s3 180)))
+	(test (or (and (> ?s1 91)(< ?s1 180)) (and (> ?s2 91)(< ?s2 180))(and (> ?s3 91)(< ?s3 180))))
 	=>
 	(assert(segitiga tumpul))
 	)
@@ -57,7 +55,7 @@
 	(test(neq ?identifier1 ?identifier2))
 	(test(neq ?identifier3 ?identifier2))
 	(test(neq ?identifier1 ?identifier3))
-	(== ?g1 ?g2 ?g3)
+	(test (= ?g1 ?g2 ?g3))
 	=>
 	(assert (segitiga sama-sisi))
 )
@@ -68,3 +66,48 @@
 	=>
 	(assert (segitiga siku-siku))
 )
+
+(defrule segitiga-sama-kaki
+	(sudut ?identifier1 ?g1)
+	(sudut ?identifier2 ?g2)
+	(test (neq ?identifier1 ?identifier2))
+	(test(= ?g1 ?g2))
+	=>
+	(assert (segitiga sama-kaki))
+)
+
+(defrule segitiga-sama-kaki-siku-siku
+	(segitiga sama-kaki)
+	(sudut ?identifier1 ?s1)
+	(test(or (> ?s1 89) (< ?s1 91)))
+	=>
+	(assert (segitiga sama-kaki-siku-siku))
+)
+
+(defrule segitiga-samakaki-tumpul
+	(segitiga sama-kaki)
+	(sudut ?identifier1 ?s1)
+	(sudut ?identifier2 ?s2)
+	(sudut ?identifier3 ?s3)
+	(test(neq ?identifier1 ?identifier2))
+	(test(neq ?identifier3 ?identifier2))
+	(test(neq ?identifier1 ?identifier3))
+	(test (or (> ?s1 90) (> ?s2 90) (> ?s3 90)))
+	=>
+	(assert (segitiga sama-kaki-tumpul)
+))
+
+(defrule segitiga-samakaki-lancip
+	(segitiga sama-kaki)
+	(sudut ?identifier1 ?s1)
+	(sudut ?identifier2 ?s2)
+	(sudut ?identifier3 ?s3)
+	(test(neq ?identifier1 ?identifier2))
+	(test(neq ?identifier3 ?identifier2))
+	(test(neq ?identifier1 ?identifier3))
+	(test(and (< ?s1 90) (< ?s2 90) (< ?s3 90)))
+	=>
+	(assert (segitiga sama-kaki-lancip))
+)
+
+
