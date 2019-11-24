@@ -22,6 +22,7 @@
 	(garis ?identifier3 ?g3)
 	(garis ?identifier4 ?g4)
 	(sisi-sama 2)
+	(test (or (and (= ?g1 ?g2) (= ?g3 g4)) (and (= ?g1 g3)(= ?g2 ?g4)) (and (= ?g1 ?g4)(= ?g2 ?g3)))
 	(test(neq ?identifier1 ?identifier2))
 	(test(neq ?identifier3 ?identifier2))
 	(test(neq ?identifier1 ?identifier3))
@@ -44,13 +45,12 @@
 )
 
 (defrule Jajar-Genjang-Layang-Layang
-	(garis ?identifier1 ?g1)
-	(garis ?identifier2 ?g2)
-	(garis ?identifier3 ?g3)
-	(garis ?identifier4 ?g4)
+	(sudut ?identifier1 ?s1)
+	(sudut ?identifier2 ?s2)
+	(sudut ?identifier3 ?s3)
+	(sudut ?identifier4 ?s4)
 	(segiempat Jajar-Genjang)
-	(sisi-sama 2)
-	(sudut-sama 1)
+	(test (or (and (= ?s1 ?s2) (= ?s3 s4)) (and (= ?s1 s3)(= ?s2 ?s4)) (and (= ?s1 ?s4)(= ?s2 ?s3)))
 	=>
 	(assert (segiempat Jajar-Genjang-Layang-Layang))
 )
@@ -72,7 +72,11 @@
 
 (defrule Trapesium-Sama-Kaki
 	(segiempat Trapesium)
-	(sisi-sama 1)
+	(garis ?identifier1 ?g1)
+	(garis ?identifier2 ?g2)
+	(garis ?identifier3 ?g3)
+	(garis ?identifier4 ?g4)
+	(test (or (= ?g1 ?g2)(= ?g1 ?g3)(= ?g1 ?g4)(= ?g2 ?g3) (= ?g2 ?g4) (= ?g3 ?g4)))
 	=>
 	(assert (segiempat Trapesium-Sama-Kaki))
 )
