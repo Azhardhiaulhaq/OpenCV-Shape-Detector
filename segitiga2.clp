@@ -1,3 +1,11 @@
+; (defrule startup
+; 	=>
+; 	(assert (titik 1 1)
+; 			(titik 1 2)
+; 			(titik 2 1)
+; 	)
+; )
+
 (defrule generate-garis
 	(titik ?x1 ?y1)
 	(titik ?x2 ?y2)
@@ -67,47 +75,8 @@
 	(assert (segitiga siku-siku))
 )
 
-(defrule segitiga-sama-kaki
-	(sudut ?identifier1 ?g1)
-	(sudut ?identifier2 ?g2)
-	(test (neq ?identifier1 ?identifier2))
-	(test(= ?g1 ?g2))
+(defrule print-jawaban
+	(segitiga ?t)
 	=>
-	(assert (segitiga sama-kaki))
+	(format t "%-18s" ?t)
 )
-
-(defrule segitiga-sama-kaki-siku-siku
-	(segitiga sama-kaki)
-	(sudut ?identifier1 ?s1)
-	(test(or (> ?s1 89) (< ?s1 91)))
-	=>
-	(assert (segitiga sama-kaki-siku-siku))
-)
-
-(defrule segitiga-samakaki-tumpul
-	(segitiga sama-kaki)
-	(sudut ?identifier1 ?s1)
-	(sudut ?identifier2 ?s2)
-	(sudut ?identifier3 ?s3)
-	(test(neq ?identifier1 ?identifier2))
-	(test(neq ?identifier3 ?identifier2))
-	(test(neq ?identifier1 ?identifier3))
-	(test (or (> ?s1 90) (> ?s2 90) (> ?s3 90)))
-	=>
-	(assert (segitiga sama-kaki-tumpul)
-))
-
-(defrule segitiga-samakaki-lancip
-	(segitiga sama-kaki)
-	(sudut ?identifier1 ?s1)
-	(sudut ?identifier2 ?s2)
-	(sudut ?identifier3 ?s3)
-	(test(neq ?identifier1 ?identifier2))
-	(test(neq ?identifier3 ?identifier2))
-	(test(neq ?identifier1 ?identifier3))
-	(test(and (< ?s1 90) (< ?s2 90) (< ?s3 90)))
-	=>
-	(assert (segitiga sama-kaki-lancip))
-)
-
-
