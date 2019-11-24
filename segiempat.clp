@@ -21,8 +21,7 @@
 	(garis ?identifier2 ?g2)
 	(garis ?identifier3 ?g3)
 	(garis ?identifier4 ?g4)
-	(sisi-sama 2)
-	(test (or (and (= ?g1 ?g2) (= ?g3 g4)) (and (= ?g1 g3)(= ?g2 ?g4)) (and (= ?g1 ?g4)(= ?g2 ?g3)))
+	(test (and (= ?g1 ?g3)(= ?g2 ?g4)))
 	(test(neq ?identifier1 ?identifier2))
 	(test(neq ?identifier3 ?identifier2))
 	(test(neq ?identifier1 ?identifier3))
@@ -50,7 +49,7 @@
 	(sudut ?identifier3 ?s3)
 	(sudut ?identifier4 ?s4)
 	(segiempat Jajar-Genjang)
-	(test (or (and (= ?s1 ?s2) (= ?s3 s4)) (and (= ?s1 s3)(= ?s2 ?s4)) (and (= ?s1 ?s4)(= ?s2 ?s3)))
+	(test (or (and (= ?s1 ?s2) (= ?s3 s4)) (and (= ?s1 s3)(= ?s2 ?s4)) (and (= ?s1 ?s4)(= ?s2 ?s3))))
 	=>
 	(assert (segiempat Jajar-Genjang-Layang-Layang))
 )

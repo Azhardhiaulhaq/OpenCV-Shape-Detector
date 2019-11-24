@@ -1,4 +1,4 @@
-(defrule Segi-Lima
+(defrule Segi-Enam
 	(sudut ?identifier1 ?s1)
 	(sudut ?identifier2 ?s2)
 	(sudut ?identifier3 ?s3)
@@ -24,7 +24,13 @@
 	(assert (segilima tak-beraturan))
 )
 
-(defrule Segi-Lima-Beraturan
+(defrule Segi-Enam-Beraturan
+	(sudut ?identifier1 ?s1)
+	(sudut ?identifier2 ?s2)
+	(sudut ?identifier3 ?s3)
+	(sudut ?identifier4 ?s4)
+	(sudut ?identifier5 ?s5)
+	(sudut ?identifier6 ?s6)
 	(segilima tak-beraturan)	
 	(test (= ?s1 ?s2 ?s3 ?s4 ?s5 ?s6))
 	=>
