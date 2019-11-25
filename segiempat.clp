@@ -49,7 +49,7 @@
 	(sudut ?identifier3 ?s3)
 	(sudut ?identifier4 ?s4)
 	(segiempat Jajar-Genjang)
-	(test (or (and (= ?s1 ?s2) (= ?s3 s4)) (and (= ?s1 s3)(= ?s2 ?s4)) (and (= ?s1 ?s4)(= ?s2 ?s3))))
+	(test (or (and (= ?s1 ?s2) (= ?s3 ?s4)) (and (= ?s1 ?s3)(= ?s2 ?s4)) (and (= ?s1 ?s4)(= ?s2 ?s3))))
 	=>
 	(assert (segiempat Jajar-Genjang-Layang-Layang))
 )

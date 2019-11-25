@@ -3,10 +3,10 @@ import cv2
 from clips import Environment, Symbol
 import math
 
-bangun = input("Masukkan bangun yang diinginkan :")
-sisi = (int)(input("Masukkan jumlah sudut :"))
+bangun = input("Masukkan bangun yang diinginkan : ")
+sisi = (int)(input("Masukkan jumlah sudut : "))
 
-img = cv2.imread('segilima.png')
+img = cv2.imread('2dshape3.png')
 imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 blurred = cv2.GaussianBlur(imgray, (5,5),0)
 ret, thresh = cv2.threshold(imgray,127,255,1)
@@ -25,66 +25,53 @@ for contour in contours:
             
             angle = math.degrees(np.arccos(tempdot/(magnitude1*magnitude2)))
             angle_list.append(angle)
-    print(angle_list)
 
-    if(sisi == 3):
+    if(sisi == 3 and len(approx) == 3):
         print("sisi 3")
-        print(approx)
         environment = Environment()
-        environment.load('segitiga2.clp')
+        environment.load('segitiga.clp')
         for x in range(len(approx)) :
             a = str(approx[x][0][0])
             b = str(approx[x][0][1])
             c = str("(titik " + a + " " + b + ")")
             environment.assert_string(c)
-        # for template in environment.templates():
-        #     print(template)
+
         for agenda in environment.activations():
             print(agenda)
-            environment.run()
-            i = 0
             for fact in environment.facts():
                 fakta = str(fact)
                 print(fakta)
                 if(bangun in fakta):
-                    print(fakta)
                     cv2.drawContours(img,[contour],0,(0,0,255),3)
                     break
+                else:
+                    environment.run(1)
         print()
         print("---------------")
-    elif(sisi == 4):
+    elif(sisi == 4 and len(approx) == 4):
         print("sisi 4")
-        print(approx)
-        sudut1 = angle_list[0]
-        sudut2 = angle_list[1]
-        sudut3 = angle_list[2]
-        sudut4 = angle_list[3]
         environment = Environment()
-        environment.load('segitiga3.clp')
-        c = str("(sudut 1 " + (str)(sudut1) + ")")
-        environment.assert_string(c)
-        c = str("(sudut 2 " + (str)(sudut2) + ")")
-        environment.assert_string(c)
-        c = str("(sudut 3 " + (str)(sudut3) + ")")
-        environment.assert_string(c)
-        c = str("(sudut 4 " + (str)(sudut4) + ")")
-        environment.assert_string(c)
+        environment.load('segiempat.clp')
+        for x in range(len(approx)) :
+            a = str(approx[x][0][0])
+            b = str(approx[x][0][1])
+            c = str("(titik " + str(x) + " " + a + " " + b + ")")
+            environment.assert_string(c)
+
         for agenda in environment.activations():
             print(agenda)
-            environment.run()
-            i = 0
             for fact in environment.facts():
                 fakta = str(fact)
                 print(fakta)
                 if(bangun in fakta):
-                    print(fakta)
                     cv2.drawContours(img,[contour],0,(0,0,255),3)
                     break
+                else:
+                    environment.run(1)
         print()
         print("---------------")
-    elif(sisi == 5):
+    elif(sisi == 5 and len(approx) == 5):
         print("sisi 5")
-        print(approx)
         sudut1 = angle_list[0]
         sudut2 = angle_list[1]
         sudut3 = angle_list[2]
@@ -101,23 +88,22 @@ for contour in contours:
         c = str("(sudut 4 " + (str)(sudut4) + ")")
         environment.assert_string(c)
         c = str("(sudut 5 " + (str)(sudut5) + ")")
-        environment.assert_string(c)
+        environment.assert_string(c)    
+
         for agenda in environment.activations():
             print(agenda)
-            environment.run()
-            i = 0
             for fact in environment.facts():
                 fakta = str(fact)
                 print(fakta)
                 if(bangun in fakta):
-                    print(fakta)
                     cv2.drawContours(img,[contour],0,(0,0,255),3)
                     break
+                else:
+                    environment.run(1)
         print()
         print("---------------")
-    elif(sisi == 6):
+    elif(sisi == 6 and len(approx) == 6):
         print("sisi 6")
-        print(approx)
         sudut1 = angle_list[0]
         sudut2 = angle_list[1]
         sudut3 = angle_list[2]
@@ -125,7 +111,7 @@ for contour in contours:
         sudut5 = angle_list[4]
         sudut6 = angle_list[5]
         environment = Environment()
-        environment.load('segitiga3.clp')
+        environment.load('segienam.clp')
         c = str("(sudut 1 " + (str)(sudut1) + ")")
         environment.assert_string(c)
         c = str("(sudut 2 " + (str)(sudut2) + ")")
@@ -138,44 +124,19 @@ for contour in contours:
         environment.assert_string(c)
         c = str("(sudut 6 " + (str)(sudut6) + ")")
         environment.assert_string(c)
+
         for agenda in environment.activations():
             print(agenda)
-            environment.run()
-            i = 0
             for fact in environment.facts():
                 fakta = str(fact)
                 print(fakta)
                 if(bangun in fakta):
-                    print(fakta)
                     cv2.drawContours(img,[contour],0,(0,0,255),3)
                     break
+                else:
+                    environment.run(1)
         print()
         print("---------------")
-
-
-# i=0
-# print(contours[0])
-# approx = cv2.approxPolyDP(contours[0], 0.01*cv2.arcLength(contours[0],True),True)
-# print(str(len(approx)))
-# cv2.drawContours(img,contours[0],0,(0,255,0),3)
-# for contour in contours:
-#     dst = cv2.cornerHarris(contour,2,3,0.04)
-    # lines = cv2.HoughLinesP([contours[1]],1,np.pi/180,80,minLineLength=50,maxLineGap=5)
-    # for line in lines :
-    #     print(line[0])
-    # approx = cv2.approxPolyDP(contour, 0.01*cv2.arcLength(contour,True),True)
-    # if len(approx) == 4:
-    #     lines = cv2.HoughLinesP([approx],1,np.pi/180,80,minLineLength=50,maxLineGap=5)
-    #     for line in lines :
-    #         print(line[0])
-    #     print("Nilai i :" + str(i))
-    #     print(approx)
-    #     print("---------")
-    #     cv2.drawContours(img,[contours[i]],0,(0,0,255),3)
-    #     cv2.putText(img,"Nilai i = " + str(i),(approx.ravel()[0],approx.ravel()[1]), cv2.FONT_HERSHEY_COMPLEX, 0.5, (0,0,255))
-    # else :
-    #     print("################")
-    # i = i + 1
 
 cv2.imshow('Image', img)
 cv2.imshow('Image GRAY', imgray)

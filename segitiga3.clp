@@ -161,7 +161,7 @@
 	(sudut ?identifier3 ?s3)
 	(sudut ?identifier4 ?s4)
 	(segiempat Jajar-Genjang)
-	(test (or (and (= ?s1 ?s2) (= ?s3 s4)) (and (= ?s1 s3)(= ?s2 ?s4)) (and (= ?s1 ?s4)(= ?s2 ?s3))))
+	(test (or (and (= ?s1 ?s2) (= ?s3 ?s4)) (and (= ?s1 ?s3)(= ?s2 ?s4)) (and (= ?s1 ?s4)(= ?s2 ?s3))))
 	=>
 	(assert (segiempat Jajar-Genjang-Layang-Layang))
 )
@@ -255,7 +255,7 @@
 	(test(neq ?identifier4 ?identifier6))
 	(test(neq ?identifier5 ?identifier6))
 	=>
-	(assert (segilima tak-beraturan))
+	(assert (segienam tak-beraturan))
 )
 
 (defrule Segi-Enam-Beraturan
@@ -265,10 +265,10 @@
 	(sudut ?identifier4 ?s4)
 	(sudut ?identifier5 ?s5)
 	(sudut ?identifier6 ?s6)
-	(segilima tak-beraturan)	
+	(segienam tak-beraturan)	
 	(test (= ?s1 ?s2 ?s3 ?s4 ?s5 ?s6))
 	=>
-	(assert (segilima beraturan))
+	(assert (segienam beraturan))
 )
 
 

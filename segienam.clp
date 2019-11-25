@@ -21,7 +21,7 @@
 	(test(neq ?identifier4 ?identifier6))
 	(test(neq ?identifier5 ?identifier6))
 	=>
-	(assert (segilima tak-beraturan))
+	(assert (segienam tak-beraturan))
 )
 
 (defrule Segi-Enam-Beraturan
@@ -31,8 +31,8 @@
 	(sudut ?identifier4 ?s4)
 	(sudut ?identifier5 ?s5)
 	(sudut ?identifier6 ?s6)
-	(segilima tak-beraturan)	
+	(segienam tak-beraturan)	
 	(test (= ?s1 ?s2 ?s3 ?s4 ?s5 ?s6))
 	=>
-	(assert (segilima beraturan))
+	(assert (segienam beraturan))
 )
