@@ -70,5 +70,5 @@
 (defrule print-jawaban
 	(segitiga ?t)
 	=>
-	(format t "%-18s" ?t)
+	(format t "%-18s %n" ?t)
 )

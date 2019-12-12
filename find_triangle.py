@@ -1,58 +1,76 @@
 import numpy as np
-import cv2 
+import cv2
 from clips import Environment, Symbol
+import clips
 import math
 
-bangun = input("Masukkan bangun yang diinginkan : ")
-sisi = (int)(input("Masukkan jumlah sudut : "))
 
-img = cv2.imread('2dshape3.png')
-imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-blurred = cv2.GaussianBlur(imgray, (5,5),0)
-ret, thresh = cv2.threshold(imgray,127,255,1)
-contours, h  = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+def processImage(filename):
+    img = cv2.imread(str(filename))
+    imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(imgray, (5, 5), 0)
+    ret, thresh = cv2.threshold(imgray, 127, 255, 1)
+    contours, h = cv2.findContours(
+        thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    return img, imgray, contours
 
-for contour in contours:
-    approx = cv2.approxPolyDP(contour, 0.01*cv2.arcLength(contour,True),True)
+
+def findAngle(contour):
+    approx = cv2.approxPolyDP(contour, 0.01*cv2.arcLength(contour, True), True)
     angle_list = []
-    for i in range(0,approx.shape[0]):
-            vertice1 = approx[i] - approx[(i-1) % approx.shape[0]]
-            vertice2 = approx[i] - approx[(i+1) % approx.shape[0]]
+    for i in range(0, approx.shape[0]):
+        vertice1 = approx[i] - approx[(i-1) % approx.shape[0]]
+        vertice2 = approx[i] - approx[(i+1) % approx.shape[0]]
 
-            tempdot = vertice1[0].dot(vertice2[0])
-            magnitude1 = np.linalg.norm(vertice1[0])
-            magnitude2 = np.linalg.norm(vertice2[0])
-            
-            angle = math.degrees(np.arccos(tempdot/(magnitude1*magnitude2)))
-            angle_list.append(angle)
+        tempdot = vertice1[0].dot(vertice2[0])
+        magnitude1 = np.linalg.norm(vertice1[0])
+        magnitude2 = np.linalg.norm(vertice2[0])
 
+        angle = math.degrees(np.arccos(tempdot/(magnitude1*magnitude2)))
+        angle_list.append(angle)
+    return approx, angle_list
+
+
+def showAgenda(environment):
+    print("AGENDA")
+    for agenda in environment.activations():
+        print(agenda)
+
+
+def showFacts(environment, img):
+    print("FACT")
+    for fact in environment.facts():
+        fakta = str(fact)
+        print(fakta)
+        if(bangun in fakta):
+            cv2.drawContours(img, [contour], 0, (0, 0, 255), 3)
+            break
+        else:
+            environment.run(1)
+
+
+def detectImage(sisi, approx, img, angle_list):
     if(sisi == 3 and len(approx) == 3):
         print("sisi 3")
         environment = Environment()
         environment.load('segitiga.clp')
-        for x in range(len(approx)) :
+        for x in range(len(approx)):
             a = str(approx[x][0][0])
             b = str(approx[x][0][1])
             c = str("(titik " + a + " " + b + ")")
             environment.assert_string(c)
 
         for agenda in environment.activations():
-            print(agenda)
-            for fact in environment.facts():
-                fakta = str(fact)
-                print(fakta)
-                if(bangun in fakta):
-                    cv2.drawContours(img,[contour],0,(0,0,255),3)
-                    break
-                else:
-                    environment.run(1)
+            showAgenda(environment)
+            print("ACTIVATED, ", agenda)
+            showFacts(environment, img)
         print()
         print("---------------")
     elif(sisi == 4 and len(approx) == 4):
         print("sisi 4")
         environment = Environment()
         environment.load('segiempat.clp')
-        for x in range(len(approx)) :
+        for x in range(len(approx)):
             a = str(approx[x][0][0])
             b = str(approx[x][0][1])
             c = str("(titik " + str(x) + " " + a + " " + b + ")")
@@ -64,7 +82,7 @@ for contour in contours:
                 fakta = str(fact)
                 print(fakta)
                 if(bangun in fakta):
-                    cv2.drawContours(img,[contour],0,(0,0,255),3)
+                    cv2.drawContours(img, [contour], 0, (0, 0, 255), 3)
                     break
                 else:
                     environment.run(1)
@@ -88,7 +106,7 @@ for contour in contours:
         c = str("(sudut 4 " + (str)(sudut4) + ")")
         environment.assert_string(c)
         c = str("(sudut 5 " + (str)(sudut5) + ")")
-        environment.assert_string(c)    
+        environment.assert_string(c)
 
         for agenda in environment.activations():
             print(agenda)
@@ -96,7 +114,7 @@ for contour in contours:
                 fakta = str(fact)
                 print(fakta)
                 if(bangun in fakta):
-                    cv2.drawContours(img,[contour],0,(0,0,255),3)
+                    cv2.drawContours(img, [contour], 0, (0, 0, 255), 3)
                     break
                 else:
                     environment.run(1)
@@ -131,14 +149,22 @@ for contour in contours:
                 fakta = str(fact)
                 print(fakta)
                 if(bangun in fakta):
-                    cv2.drawContours(img,[contour],0,(0,0,255),3)
+                    cv2.drawContours(img, [contour], 0, (0, 0, 255), 3)
                     break
                 else:
                     environment.run(1)
         print()
         print("---------------")
 
-cv2.imshow('Image', img)
-cv2.imshow('Image GRAY', imgray)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    bangun = input("Masukkan bangun yang diinginkan : ")
+    sisi = (int)(input("Masukkan jumlah sudut : "))
+    img, imgray, contours = processImage('2dshape3.png')
+    for contour in contours:
+        approx, angle_list = findAngle(contour)
+        detectImage(sisi, approx, img, angle_list)
+    cv2.imshow('Image', img)
+    cv2.imshow('Image GRAY', imgray)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
