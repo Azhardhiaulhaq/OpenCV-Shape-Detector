@@ -3,6 +3,9 @@ import cv2
 from clips import Environment, Symbol
 import clips
 import math
+import time
+import sys
+import itertools
 
 
 def processImage(filename):
@@ -31,25 +34,10 @@ def findAngle(contour):
     return approx, angle_list
 
 
-def showAgenda(environment):
-    print("AGENDA")
-    for agenda in environment.activations():
-        print(agenda)
-
-
-def showFacts(environment, img):
-    print("FACT")
-    for fact in environment.facts():
-        fakta = str(fact)
-        print(fakta)
-        if(bangun in fakta):
-            cv2.drawContours(img, [contour], 0, (0, 0, 255), 3)
-            break
-        else:
-            environment.run(1)
-
-
 def detectImage(sisi, approx, img, angle_list):
+    listAgenda = []
+    listFact = []
+    isFound = False
     if(sisi == 3 and len(approx) == 3):
         print("sisi 3")
         environment = Environment()
@@ -60,12 +48,26 @@ def detectImage(sisi, approx, img, angle_list):
             c = str("(titik " + a + " " + b + ")")
             environment.assert_string(c)
 
-        for agenda in environment.activations():
-            showAgenda(environment)
-            print("ACTIVATED, ", agenda)
-            showFacts(environment, img)
-        print()
-        print("---------------")
+        while (not isFound):
+            try:
+                hit = next(itertools.islice(environment.activations(), 1))
+                listAgenda.append(str(hit).strip('0      '))
+                for fact in environment.facts():
+                    fakta = str(fact)
+                    listFact.append(fakta)
+                    if(bangun in fakta):
+                        cv2.drawContours(img, [contour], 0, (0, 0, 255), 3)
+                        isFound = True
+                if (not isFound):
+                    listFact = []  # re inisialisasi listFact
+                else:
+                    return listAgenda, listFact, isFound
+                environment.run(1)
+            except Exception as e:
+                break
+        if(not isFound):
+            return [], [], False
+
     elif(sisi == 4 and len(approx) == 4):
         print("sisi 4")
         environment = Environment()
@@ -76,18 +78,27 @@ def detectImage(sisi, approx, img, angle_list):
             c = str("(titik " + str(x) + " " + a + " " + b + ")")
             environment.assert_string(c)
 
-        for agenda in environment.activations():
-            print(agenda)
-            for fact in environment.facts():
-                fakta = str(fact)
-                print(fakta)
-                if(bangun in fakta):
-                    cv2.drawContours(img, [contour], 0, (0, 0, 255), 3)
-                    break
+        while (not isFound):
+            try:
+                hit = next(itertools.islice(environment.activations(), 1))
+                listAgenda.append(str(hit).strip('0      '))
+                for fact in environment.facts():
+                    fakta = str(fact)
+                    listFact.append(fakta)
+                    if(bangun in fakta):
+                        cv2.drawContours(img, [contour], 0, (0, 0, 255), 3)
+                        isFound = True
+                if (not isFound):
+                    listFact = []  # re inisialisasi listFact
                 else:
-                    environment.run(1)
-        print()
-        print("---------------")
+                    return listAgenda, listFact, isFound
+                environment.run(1)
+            except Exception as e:
+                print(e)
+                break
+        if(not isFound):
+            return [], [], False
+
     elif(sisi == 5 and len(approx) == 5):
         print("sisi 5")
         sudut1 = angle_list[0]
@@ -108,18 +119,27 @@ def detectImage(sisi, approx, img, angle_list):
         c = str("(sudut 5 " + (str)(sudut5) + ")")
         environment.assert_string(c)
 
-        for agenda in environment.activations():
-            print(agenda)
-            for fact in environment.facts():
-                fakta = str(fact)
-                print(fakta)
-                if(bangun in fakta):
-                    cv2.drawContours(img, [contour], 0, (0, 0, 255), 3)
-                    break
+        while (not isFound):
+            try:
+                hit = next(itertools.islice(environment.activations(), 1))
+                listAgenda.append(str(hit).strip('0      '))
+                for fact in environment.facts():
+                    fakta = str(fact)
+                    listFact.append(fakta)
+                    if(bangun in fakta):
+                        cv2.drawContours(img, [contour], 0, (0, 0, 255), 3)
+                        isFound = True
+                if (not isFound):
+                    listFact = []  # re inisialisasi listFact
                 else:
-                    environment.run(1)
-        print()
-        print("---------------")
+                    return listAgenda, listFact, isFound
+                environment.run(1)
+            except Exception as e:
+                print(e)
+                break
+        if(not isFound):
+            return [], [], False
+
     elif(sisi == 6 and len(approx) == 6):
         print("sisi 6")
         sudut1 = angle_list[0]
@@ -143,27 +163,47 @@ def detectImage(sisi, approx, img, angle_list):
         c = str("(sudut 6 " + (str)(sudut6) + ")")
         environment.assert_string(c)
 
-        for agenda in environment.activations():
-            print(agenda)
-            for fact in environment.facts():
-                fakta = str(fact)
-                print(fakta)
-                if(bangun in fakta):
-                    cv2.drawContours(img, [contour], 0, (0, 0, 255), 3)
-                    break
+        while (not isFound):
+            try:
+                hit = next(itertools.islice(environment.activations(), 1))
+                listAgenda.append(str(hit).strip('0      '))
+                for fact in environment.facts():
+                    fakta = str(fact)
+                    listFact.append(fakta)
+                    if(bangun in fakta):
+                        cv2.drawContours(img, [contour], 0, (0, 0, 255), 3)
+                        isFound = True
+                if (not isFound):
+                    listFact = []  # re inisialisasi listFact
                 else:
-                    environment.run(1)
-        print()
-        print("---------------")
+                    return listAgenda, listFact, isFound
+                environment.run(1)
+            except Exception as e:
+                print(e)
+                break
+        if(not isFound):
+            return [], [], False
 
 
 if __name__ == "__main__":
     bangun = input("Masukkan bangun yang diinginkan : ")
     sisi = (int)(input("Masukkan jumlah sudut : "))
-    img, imgray, contours = processImage('2dshape3.png')
+    img, imgray, contours = processImage('Untitled2.png')
+    listAgenda = []
+    listFact = []
+    isFound = False
     for contour in contours:
         approx, angle_list = findAngle(contour)
-        detectImage(sisi, approx, img, angle_list)
+        if (sisi == len(approx)):
+            templistAgenda, templistFact, tempisFound = detectImage(
+                sisi, approx, img, angle_list)
+            if (tempisFound):
+                listAgenda = templistAgenda
+                listFact = templistFact
+                isFound = tempisFound
+    print(listAgenda)
+    print(listFact)
+    print(isFound)
     cv2.imshow('Image', img)
     cv2.imshow('Image GRAY', imgray)
     cv2.waitKey(0)
